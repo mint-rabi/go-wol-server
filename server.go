@@ -6,8 +6,12 @@ import (
 	"net/http"
 )
 
-func NewServer(address string, port int) error {
+func NewServer(address string, port int, debug bool) error {
+	if !debug {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
+
 	r.GET("/wol/:mac_address", func(c *gin.Context) {
 		macAddress := c.Param("mac_address")
 		err := Send(macAddress)
